@@ -3,6 +3,7 @@ import axios from "axios";
 import {Redirect} from "react-router-dom";
 
 import AddAuthor from "../AddAuthor/index";
+import TopBar from "../TopBar/index";
 
 class BookList extends Component {
     constructor(props) {
@@ -74,6 +75,7 @@ class BookList extends Component {
         }
         return (
             <div>
+                <TopBar active="books"/>
                 Authors
                 <hr/>
                 <hr/>

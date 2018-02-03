@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import axios from "axios";
 
+import TopBar from "../TopBar/index";
+
 class BookDetail extends Component {
     constructor(props) {
         super(props);
@@ -30,11 +32,6 @@ class BookDetail extends Component {
     }
 
     render() {
-        /*
-         if(this.state.redirect) {
-         return <Redirect push to={"/book/"+this.selectedBook}/>;
-         }
-         */
         let content = <span>Loading</span>;
         if (this.state.loaded) {
             content =
@@ -51,6 +48,7 @@ class BookDetail extends Component {
         }
         return (
             <div>
+                <TopBar active="books"/>
                 Book Detail
                 <hr/>
                 <hr/>

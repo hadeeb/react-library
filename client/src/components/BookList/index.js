@@ -3,6 +3,7 @@ import axios from "axios";
 import {Redirect} from "react-router-dom";
 
 import AddBook from "../AddBook/index";
+import TopBar from "../TopBar/index";
 
 class BookList extends Component {
     constructor(props) {
@@ -32,18 +33,6 @@ class BookList extends Component {
             url: '/authorlist',
             method: 'get'
         };
-        /*
-         axios.get('/booklist')
-         .then(function (response) {
-         console.log(typeof response.data);
-         that.books = response.data;
-         console.log(that.books);
-         that.setState({loaded:true});
-         })
-         .catch(function (error) {
-         console.log(error);
-         })
-         */
         axios.all([
             axios.request(listreq),
             axios.request(authreq)
@@ -52,7 +41,7 @@ class BookList extends Component {
                 that.books = res1.data;
                 that.authors = res2.data;
                 that.setState({loaded: true});
-            }))
+            }));
     }
 
     render() {
@@ -87,6 +76,7 @@ class BookList extends Component {
         }
         return (
             <div>
+                <TopBar active="books"/>
                 Books
                 <hr/>
                 <hr/>
