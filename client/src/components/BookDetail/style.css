@@ -10,12 +10,20 @@
 }
 .detail-container {
     flex: 7;
+    display: flex;
     padding: 2%;
-	background-color: #fff;
+    background-color: #fff;
+    align-items: flex-start;
+}
+.detail-container img {
+    margin-top: 2%;
+    flex: 1;
 }
 .detail-container div {
+    flex: 9;
     padding-top: 1%;
     padding-bottom: 1%;
+    word-wrap: break-word;
 }
 .nav-btns {
     margin-left: 2%;
@@ -34,7 +42,7 @@
 }
 .nav-btns div:hover,
 .nav-btns div:focus {
-    color: blue;
+    color: var(--cornflower);
     cursor: pointer;
 }
 .book-name {

@@ -34,6 +34,11 @@
 	flex: 1;
 	margin-left: 2%;
 	margin-right: 2%;
+	border-style:none;
+	border-radius: 5px 5px 5px 5px;
+}
+.modal-btns button[type="submit"] {
+	background-color: var(--cornflower);
 }
 .close {
 	width: auto;
@@ -61,7 +66,7 @@
     border-bottom: 2px solid #CACACA;
 }
 .modal input:focus {
-	border-bottom-color: blue;
+	border-bottom-color: var(--cornflower);
 }
 .modal select {
 	background: #fff;

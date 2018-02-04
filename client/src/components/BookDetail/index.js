@@ -4,6 +4,7 @@ import axios from "axios";
 import TopBar from "../TopBar/index";
 
 import './style.css';
+import bookicon from "../../assets/book_icon.svg";
 
 class BookDetail extends Component {
     constructor(props) {
@@ -40,13 +41,16 @@ class BookDetail extends Component {
         if (this.state.loaded) {
             content =
                 <div className="detail-container">
-                    <div className="row1">
-                        <span className="book-name">{this.book.name}</span>
-                        <span className="book-isbn">{this.book.isbn}</span>
+                    <img src={bookicon} alt=""/>
+                    <div className="book-detail">
+                        <div className="row1">
+                            <span className="book-name">{this.book.name}</span>
+                            <span className="book-isbn">{this.book.isbn}</span>
+                        </div>
+                        
+                        <div>by <span className="auth-name">{this.authname}</span></div>
+                        <div>{this.book.about}</div>
                     </div>
-                    
-                    <div>by <span className="auth-name">{this.authname}</span></div>
-                    <div>{this.book.about}</div>
                 </div>
             ;
         }

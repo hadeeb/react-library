@@ -6,6 +6,7 @@ import AddBook from "../AddBook/index";
 import TopBar from "../TopBar/index";
 
 import './style.css';
+import booklogo from "../../assets/book_icon.svg";
 
 class BookList extends Component {
     constructor(props) {
@@ -69,21 +70,24 @@ class BookList extends Component {
                 }
                 list.push(
                     <div className="list-item" key={book} onClick={() => this.navigateTo(this.books[book].id)}>
-                        <div className="booklist-row1">
-                            <span className="book-name">
-                                {this.books[book].name}
-                            </span>
-                            <span className="book-isbn">
-                                ISBN - {this.books[book].isbn}
-                            </span>
-                        </div>
-                        <div>   
-                            by 
-                            <span className="book-author">{authorname}</span>
-                        </div>
-                        <div>    
-                            {(this.books[book].about).substring(0,80)}
-                            <span className="more-btn">More</span>
+                        <img src={booklogo} alt=""/>
+                        <div className="list-content">
+                            <div className="booklist-row1">
+                                <span className="book-name">
+                                    {this.books[book].name}
+                                </span>
+                                <span className="book-isbn">
+                                    ISBN - {this.books[book].isbn}
+                                </span>
+                            </div>
+                            <div>   
+                                by 
+                                <span className="book-author">{authorname}</span>
+                            </div>
+                            <div>    
+                                {(this.books[book].about).substring(0,100)}...
+                                <span className="more-btn">More</span>
+                            </div>
                         </div>
                     </div>
                 );

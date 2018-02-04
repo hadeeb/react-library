@@ -26,14 +26,23 @@
     height: 50px;
 	border-style: none;
 	border-radius: 5px 5px 5px 5px;
-	background-color: blue;
+	background-color: var(--cornflower);
 }
 .list-item {
 	padding: 2%;
 	background-color: #fff;
 	margin-bottom: 0.2%;
+	display: flex;
+	align-items: flex-start;
 }
-.list-item div {
+.list-item img {
+	margin-top: 2%;
+}
+.list-content {
+	flex: 1;
+	margin-left: 2%;
+}
+.list-content div {
 	padding-top: 0.5%;
 	padding-bottom: 0.5%;
 }
@@ -48,7 +57,7 @@
 	color: #4e4e4e;
 }
 .more-btn {
-	color:blue;
+	color:var(--cornflower);
 }
 .more-btn:hover,
 .more-btn:focus {

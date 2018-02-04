@@ -6,13 +6,15 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "fs": "0.0.1-security",
-    "morgan": "^1.9.0",
     "mysql": "^2.15.0"
   },
   "scripts": {
+    "setup":"npm install && cd client && npm install",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node server.js",
     "client": "node start-client.js",
+    "build": "cd client && npm run build",
+    "prod":"NODE_ENV=production node server.js",
     "heroku-postbuild": "cd client && npm install --only=production && npm run build"
   },
   "devDependencies": {

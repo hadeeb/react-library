@@ -17,21 +17,26 @@ if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
 }
 
+// Load database conncetion
 const db = require("./db");
+
+//Get the list of all books
 app.get("/booklist", (req,res) => {
     db.query("SELECT * FROM book", function (err, result, fields) {
         if (err) throw err;
-        console.log(result);
         res.send(result);
     });
 });
+
+//Get the list of all authors
 app.get("/authorlist", (req, res) => {
     db.query("SELECT * FROM author", function (err, result, fields) {
         if (err) throw err;
-        console.log(result);
         res.send(result);
     });
 });
+
+//Add a book to database
 app.post("/addbook", (req, res) => {
     const name = req.body.name,
         author = req.body.author,
@@ -42,49 +47,51 @@ app.post("/addbook", (req, res) => {
         function (err, result) {
             if (err) throw err;
             res.send("OK");
-            console.log("Test2");
         }
     );
 
 });
+
+//Add an author to database
 app.post("/addauthor", (req, res) => {
     const name = req.body.name,
         age = req.body.age,
         gender = req.body.gender,
         born = req.body.born,
         about = req.body.about;
-    console.log(req.body.name);
     db.query(`INSERT INTO author (name,age,gender,born,about) VALUES ('${name}','${age}','${gender}','${born}','${about}')`,
         function (err, result) {
             if (err) throw err;
             res.send("OK");
-            console.log("Test2");
         }
     );
 });
+
+// Get details of a book
 app.get("/viewbook/:id", (req,res) => {
     db.query("SELECT * FROM book WHERE id = " + mysql.escape(req.params.id), function (err, result, fields) {
         if (err) throw err;
-        console.log("SELECT * FROM book WHERE id = " + mysql.escape(req.params.id));
         res.send(result);
     });
 });
+
+//Get Books by an author
 app.get("/viewauthor/:id", (req,res) => {
     db.query("SELECT * FROM book WHERE author = " + mysql.escape(req.params.id), function (err, result, fields) {
         if (err) throw err;
-        console.log(result);
         res.send(result);
     });
 });
+
+//Get Profile of an author
 app.get("/authorprofile/:id", (req, res) => {
     db.query("SELECT * FROM author WHERE id = " + mysql.escape(req.params.id), function (err, result, fields) {
         if (err) throw err;
-        console.log(result);
         res.send(result);
     });
 });
 app.get("/",(req,res) => {
-   res.send("HomePage");
+   res.send("Client loading");
 });
 app.listen(app.get("port"), () => {
     console.log(`Find the server at: http://localhost:${app.get("port")}/`);

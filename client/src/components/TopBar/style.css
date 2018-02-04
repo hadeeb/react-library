@@ -11,18 +11,21 @@
 	margin-left: 3%;
 	flex: 1;
 	font-size: 2em;
-	color: blue;
+	color: var(--cornflower);
+	font-family: 'Montserrat', sans-serif;
+	font-weight: bold;
+
 }
 .top-bar a {
 	text-decoration: none;
 	color: #8c8c8c;
 }
 .top-bar .active {
-	border-bottom: 1px solid blue;
-	color: blue;
+	border-bottom: 1px solid var(--cornflower);
+	color: var(--cornflower);
 }
 .active a {
-	color: blue;
+	color: var(--cornflower);
 }
 .top-bar div {
 	margin-right: 6%;

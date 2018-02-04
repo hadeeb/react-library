@@ -5,6 +5,7 @@ import {Redirect} from "react-router-dom";
 import AddAuthor from "../AddAuthor/index";
 import TopBar from "../TopBar/index";
 import './style.css';
+import authorlogo from "../../assets/author_icon.svg";
 
 class AuthorList extends Component {
     constructor(props) {
@@ -67,13 +68,16 @@ class AuthorList extends Component {
                 }
                 list.push(
                     <div className="list-item" key={author} onClick={() => this.navigateTo(this.authors[author].id)}>
-                        <div className="authorlist-row1">
-                            <span className="author-name">{this.authors[author].name}</span>
-                            <span> Born in{this.authors[author].born}</span>
-                        </div>
-                        <div className="authorlist-row2">
-                            <span>Age {this.authors[author].age}</span> /
-                            <span> {gender}</span>
+                        <img src={authorlogo} alt=""/>
+                        <div className="list-content">
+                            <div className="authorlist-row1">
+                                <span className="author-name">{this.authors[author].name}</span>
+                                <span> Born in{this.authors[author].born}</span>
+                            </div>
+                            <div className="authorlist-row2">
+                                <span>Age {this.authors[author].age}</span> /
+                                <span> {gender}</span>
+                            </div>
                         </div>
                     </div>
                 );

@@ -2,9 +2,14 @@ import React, {Component} from "react";
 import axios from "axios";
 
 class AddAuthor extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.state =({show:false})
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    preventClick(event) {
+        event.stopPropagation();
     }
 
     handleSubmit(event) {
@@ -24,25 +29,32 @@ class AddAuthor extends Component {
                 console.log(error);
             });
     }
+    componentWillReceiveProps(nextProps){
+        this.setState({show:nextProps.show});
+    }
 
     render() {
+        let show = this.state.show?"modal modal-show":"modal";
         return (
-            <div>
-                <h3>ADD AUTHOR</h3><br/>
-                <form onSubmit={this.handleSubmit}>
-                    <input ref="authName" placeholder="Author Name"/><br/>
-                    <input ref="authAge" type="number" placeholder="Age"/>
-                    <select ref="authGender">
-                        <option value={1}>Male</option>
-                        <option value={2}>Female</option>
-                        <option value={3}>Non-binary</option>
-                    </select>
-                    <br/>
-                    <input ref="authBorn" placeholder="Born In"/><br/>
-                    <input ref="authAbout" placeholder="About Author"/><br/>
-                    <button>Cancel</button>
-                    <button type="submit">Save Author</button>
-                </form>
+            <div className={show} onClick={()=>this.setState({show:false})}>
+                <div className="modal-content" onClick={this.preventClick}>
+                    <span onClick={()=>this.setState({show:false})} className="close">&times;</span>
+                    <div className="modal-heading">ADD AUTHOR</div>                    <form onSubmit={this.handleSubmit}>
+                        <input className="modal-input" ref="authName" placeholder="Author Name"/><br/>
+                        <input className="modal-input" ref="authAge" type="number" placeholder="Age"/>
+                        <select className="modal-input" ref="authGender">
+                            <option value={1}>Male</option>
+                            <option value={2}>Female</option>
+                            <option value={3}>Non-binary</option>
+                        </select>
+                        <input className="modal-input" ref="authBorn" placeholder="Born In"/>
+                        <input className="modal-input" ref="authAbout" placeholder="About Author"/>
+                        <div className="modal-input modal-btns">
+                            <button type="reset" onClick={()=>this.setState({show:false})}>Cancel</button>
+                            <button type="submit">Save Author</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         );
     }

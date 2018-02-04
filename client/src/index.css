@@ -1,3 +1,11 @@
+:root {
+	--cornflower:#6379f6;
+	--white:#ffffff;
+	--black_12:rgba(0, 0, 0, 0.12);
+	--black_38:rgba(0, 0, 0, 0.38);
+	--pale_grey:#e4e7eb;
+	--pale_grey_two:#f8f8fa;
+}
 body {
 	font-family: 'Roboto', sans-serif;
 	color: #8c8c8c;
