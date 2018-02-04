@@ -1,9 +1,9 @@
-#Library App
+# Library App
 
-##Prequisites
+## Prequisites
   * MySQL
   * NodeJS
-##Setup instructions
+## Setup instructions
 
 Run MySQL server and create the database and tables <br>
 Refer [dbsetup](/blob/master/dbsetup sql) <br>
