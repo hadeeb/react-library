@@ -1,0 +1,45 @@
+.container {
+	margin : 3%;
+}
+.content-heading {
+	padding-bottom: 2%;
+    align-items: center; 
+}
+.main-content,.row1 {
+	display: flex;
+}
+.detail-container {
+    flex: 7;
+    padding: 2%;
+	background-color: #fff;
+}
+.detail-container div {
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+.nav-btns {
+    margin-left: 2%;
+    height: 50px;
+    flex: 2;
+    width: 100%;
+	border-radius: 5px 5px 5px 5px;
+    display: flex;
+}
+.nav-btns div {
+    background-color:#fff;
+    flex: 1;
+    margin: 1%;
+    text-align: center;
+    line-height: 45px;
+}
+.nav-btns div:hover,
+.nav-btns div:focus {
+    color: blue;
+    cursor: pointer;
+}
+.book-name {
+    flex: 1;
+}
+.auth-name,.book-name {
+    color: #4e4e4e;
+}

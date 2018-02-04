@@ -5,6 +5,8 @@ import {Redirect} from "react-router-dom";
 import AddBook from "../AddBook/index";
 import TopBar from "../TopBar/index";
 
+import './style.css';
+
 class BookList extends Component {
     constructor(props) {
         super(props);
@@ -13,9 +15,9 @@ class BookList extends Component {
         this.selectedBook = null;
         this.state = {
             loaded: false,
-            redirect: false
+            redirect: false,
+            addbook:false
         };
-        this.fetch_details();
     }
 
     navigateTo(book) {
@@ -44,12 +46,16 @@ class BookList extends Component {
             }));
     }
 
+    componentDidMount() {
+        this.fetch_details();
+    }
+
     render() {
         if (this.state.redirect) {
             return <Redirect push to={"/book/" + this.selectedBook}/>;
         }
         const addbtn =
-            <button>Add Book</button>
+            <button onClick={()=>this.setState({addbook:true})}>Add Book</button>
         ;
         let list = [];
         if (this.state.loaded) {
@@ -62,29 +68,44 @@ class BookList extends Component {
                     }
                 }
                 list.push(
-                    <div key={book} onClick={() => this.navigateTo(this.books[book].id)}>
-                        <span>{this.books[book].name}</span>
-                        <span>{this.books[book].isbn}</span>
-                        <br/>
-                        <span>By {authorname}</span>
-                        <br/>
-                        <span>{this.books[book].about}</span>
-                        <hr/>
+                    <div className="list-item" key={book} onClick={() => this.navigateTo(this.books[book].id)}>
+                        <div className="booklist-row1">
+                            <span className="book-name">
+                                {this.books[book].name}
+                            </span>
+                            <span className="book-isbn">
+                                ISBN - {this.books[book].isbn}
+                            </span>
+                        </div>
+                        <div>   
+                            by 
+                            <span className="book-author">{authorname}</span>
+                        </div>
+                        <div>    
+                            {(this.books[book].about).substring(0,80)}
+                            <span className="more-btn">More</span>
+                        </div>
                     </div>
                 );
             }
         }
         return (
-            <div>
+            <div className="component-container">
                 <TopBar active="books"/>
-                Books
-                <hr/>
-                <hr/>
-                {list}
-                <hr/>
-                {addbtn}
-                <hr/>
-                <AddBook/>
+                <div className="container">
+                    <div className="content-heading">
+                        BOOKS
+                    </div>
+                    <div className="main-content">
+                        <div className="list-container">
+                            {list}
+                        </div>
+                        <div className="add-btn">
+                            {addbtn}
+                        </div>
+                    </div>    
+                </div>
+                <AddBook show={this.state.addbook}/>
             </div>
         );
     }

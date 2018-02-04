@@ -4,17 +4,18 @@ import {Redirect} from "react-router-dom";
 
 import AddAuthor from "../AddAuthor/index";
 import TopBar from "../TopBar/index";
+import './style.css';
 
-class BookList extends Component {
+class AuthorList extends Component {
     constructor(props) {
         super(props);
         this.authors = null;
         this.selectedAuthor = null;
         this.state = {
             loaded: false,
-            redirect: false
+            redirect: false,
+            addauthor:false
         };
-        this.fetch_details();
     }
 
     navigateTo(author) {
@@ -36,12 +37,16 @@ class BookList extends Component {
             })
     }
 
+    componentDidMount() {
+        this.fetch_details();
+    }
+
     render() {
         if (this.state.redirect) {
             return <Redirect push to={"/author/" + this.selectedAuthor}/>;
         }
         const addbtn =
-            <button>Add Author</button>
+            <button onClick={()=>this.setState({addauthor:true})}>Add Author</button>
         ;
         let list = [];
         if (this.state.loaded) {
@@ -61,32 +66,39 @@ class BookList extends Component {
                         gender = " "
                 }
                 list.push(
-                    <div key={author} onClick={() => this.navigateTo(this.authors[author].id)}>
-                        <span>{this.authors[author].name}</span>
-                        <span> Born in{this.authors[author].born}</span>
-                        <br/>
-                        <span>Age {this.authors[author].age}</span>
-                        /
-                        <span>{gender}</span>
-                        <hr/>
+                    <div className="list-item" key={author} onClick={() => this.navigateTo(this.authors[author].id)}>
+                        <div className="authorlist-row1">
+                            <span className="author-name">{this.authors[author].name}</span>
+                            <span> Born in{this.authors[author].born}</span>
+                        </div>
+                        <div className="authorlist-row2">
+                            <span>Age {this.authors[author].age}</span> /
+                            <span> {gender}</span>
+                        </div>
                     </div>
                 );
             }
         }
         return (
-            <div>
-                <TopBar active="books"/>
-                Authors
-                <hr/>
-                <hr/>
-                {list}
-                <hr/>
-                {addbtn}
-                <hr/>
-                <AddAuthor/>
+            <div className="component-container">
+                <TopBar active="authors"/>
+                <div className="container">
+                    <div className="content-heading">
+                        AUTHORS
+                    </div>
+                    <div className="main-content">
+                        <div className="list-container">
+                            {list}
+                        </div>
+                        <div className="add-btn">
+                            {addbtn}
+                        </div>
+                    </div>
+                </div>
+                <AddAuthor show={this.state.addauthor}/>
             </div>
         );
     }
 }
 
-export default BookList;
+export default AuthorList;

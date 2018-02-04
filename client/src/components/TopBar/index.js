@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import {Link} from "react-router-dom";
+import './style.css';
 
 class TopBar extends Component {
     constructor(props) {
@@ -19,10 +21,10 @@ class TopBar extends Component {
         let bookclass = this.active === 1 ? "active" : "";
         let authclass = this.active === 2 ? "active" : "";
         return (
-            <div>
-                <span>Library</span>
-                <div className={bookclass}>Books</div>
-                <div className={authclass}>Authors</div>
+            <div className="top-bar">
+                <span className="brand-name">Library</span>
+                <div className={bookclass}><Link to="/books">Books</Link></div>
+                <div className={authclass}><Link to="/authors">Authors</Link></div>
             </div>
         );
     }

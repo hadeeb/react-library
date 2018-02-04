@@ -1,0 +1,56 @@
+.container {
+	margin : 3%;
+}
+.content-heading {
+	padding-bottom: 2%;
+    align-items: center; 
+}
+.main-content {
+	display: flex;
+}
+.add-btn {
+	margin-left: 2%;
+}
+.list-container {
+	flex: 7;
+}
+.add-btn,.add-btn button {
+	flex: 2;
+	width: 100%;
+}
+.add-btn button {
+	color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    font-family: "Roboto";
+    height: 50px;
+	border-style: none;
+	border-radius: 5px 5px 5px 5px;
+	background-color: blue;
+}
+.list-item {
+	padding: 2%;
+	background-color: #fff;
+	margin-bottom: 0.2%;
+}
+.list-item div {
+	padding-top: 0.5%;
+	padding-bottom: 0.5%;
+}
+.booklist-row1 {
+	font-size: 1.2em;
+	display: flex;
+}
+.book-name {
+	flex: 1;
+}
+.book-name,.book-author {
+	color: #4e4e4e;
+}
+.more-btn {
+	color:blue;
+}
+.more-btn:hover,
+.more-btn:focus {
+	cursor: pointer;
+}

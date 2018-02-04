@@ -3,11 +3,12 @@ import axios from "axios";
 
 import TopBar from "../TopBar/index";
 
+import './style.css';
+
 class BookDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {loaded: false};
-        this.fetch_details();
     }
 
     fetch_details() {
@@ -30,29 +31,40 @@ class BookDetail extends Component {
                 console.log(error);
             });
     }
+    componentDidMount() {
+        this.fetch_details();
+    }
 
     render() {
         let content = <span>Loading</span>;
         if (this.state.loaded) {
             content =
-                <div>
-                    <span>{this.book.name}</span>
-                    <span>{this.book.isbn}</span>
-                    <br/>
-                    <span>By {this.authname}</span>
-                    <br/>
-                    <span>{this.book.about}</span>
-                    <hr/>
+                <div className="detail-container">
+                    <div className="row1">
+                        <span className="book-name">{this.book.name}</span>
+                        <span className="book-isbn">{this.book.isbn}</span>
+                    </div>
+                    
+                    <div>by <span className="auth-name">{this.authname}</span></div>
+                    <div>{this.book.about}</div>
                 </div>
             ;
         }
         return (
-            <div>
+            <div className="component-container">
                 <TopBar active="books"/>
-                Book Detail
-                <hr/>
-                <hr/>
-                {content}
+                <div className="container">
+                    <div className="content-heading">
+                        Books / Details
+                    </div>
+                    <div className="main-content">
+                        {content}
+                        <div className="nav-btns">
+                        <div>&lArr;</div>
+                        <div>&rArr;</div>
+                        </div>
+                    </div>
+                </div>        
             </div>
         );
     }
