@@ -6,7 +6,7 @@
 ## Setup instructions
 
 Run MySQL server and create the database and tables <br>
-Refer [dbsetup](/blob/master/dbsetup sql) <br>
+Refer [dbsetup](/dbsetup.sql) <br>
 Set the database username and password in db.js <br>
 
 
