@@ -4,11 +4,11 @@ import axios from "axios";
 class AddAuthor extends Component {
     constructor(props) {
         super(props);
-        this.state =({show:false})
+        this.state =({show:false});
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    preventClick(event) {
+    static preventClick(event) {
         event.stopPropagation();
     }
 
@@ -37,7 +37,7 @@ class AddAuthor extends Component {
         let show = this.state.show?"modal modal-show":"modal";
         return (
             <div className={show} onClick={()=>this.setState({show:false})}>
-                <div className="modal-content" onClick={this.preventClick}>
+                <div className="modal-content" onClick={AddAuthor.preventClick}>
                     <span onClick={()=>this.setState({show:false})} className="close">&times;</span>
                     <div className="modal-heading">ADD AUTHOR</div>                    <form onSubmit={this.handleSubmit}>
                         <input className="modal-input" ref="authName" placeholder="Author Name"/><br/>
@@ -45,7 +45,7 @@ class AddAuthor extends Component {
                         <select className="modal-input" ref="authGender">
                             <option value={1}>Male</option>
                             <option value={2}>Female</option>
-                            <option value={3}>Non-binary</option>
+                            <option value={3}>Other</option>
                         </select>
                         <input className="modal-input" ref="authBorn" placeholder="Born In"/>
                         <input className="modal-input" ref="authAbout" placeholder="About Author"/>

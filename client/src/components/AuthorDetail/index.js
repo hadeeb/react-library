@@ -85,7 +85,7 @@ class AuthorDetail extends Component {
                         gender = "Female";
                         break;
                     case 3:
-                        gender = "Non-binary";
+                        gender = "Other";
                         break;
                     default:
                         gender = " "
