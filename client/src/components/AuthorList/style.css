@@ -5,6 +5,17 @@
 	padding-bottom: 2%;
     align-items: center; 
 }
+.heading-text {
+	flex: 7;
+}
+.heading-book-count {
+	flex: 7;
+	text-align: right;
+}
+.heading-spacer {
+	flex: 4;
+	margin-left: 2%;
+}
 .main-content {
 	display: flex;
 }
@@ -22,7 +33,7 @@
 	color: white;
     font-size: 1.2em;
     font-weight: bold;
-    font-family: "Roboto";
+	font-family: "Roboto", sans-serif;
     height: 50px;
 	border-style: none;
 	border-radius: 5px 5px 5px 5px;

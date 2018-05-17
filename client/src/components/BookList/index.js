@@ -1,6 +1,6 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import axios from "axios";
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import AddBook from "../AddBook/index";
 import TopBar from "../TopBar/index";
@@ -19,6 +19,7 @@ class BookList extends Component {
             redirect: false,
             addbook:false
         };
+        this.closeModal = this.closeModal.bind(this);
     }
 
     navigateTo(book) {
@@ -28,27 +29,21 @@ class BookList extends Component {
 
     fetch_details() {
         const that = this;
-        let listreq = {
-            url: '/booklist',
-            method: 'get'
-        };
-        let authreq = {
-            url: '/authorlist',
-            method: 'get'
-        };
-        axios.all([
-            axios.request(listreq),
-            axios.request(authreq)
-        ])
-            .then(axios.spread(function (res1, res2) {
-                that.books = res1.data;
-                that.authors = res2.data;
+        axios.get('/booklist')
+            .then(function(response) {
+                that.books = response.data;
                 that.setState({loaded: true});
-            }));
+            })
     }
 
     componentDidMount() {
         this.fetch_details();
+    }
+    closeModal(added) {
+        this.setState({addbook:false});
+        if(added) {
+            this.fetch_details();
+        }
     }
 
     render() {
@@ -58,16 +53,10 @@ class BookList extends Component {
         const addbtn =
             <button onClick={()=>this.setState({addbook:true})}>Add Book</button>
         ;
-        let list = [];
+        let list = <div className="list-item">Loading</div>;
         if (this.state.loaded) {
+            list = [];
             for (let book in this.books) {
-                let authorname = "";
-                for (let author in this.authors) {
-                    if (this.books[book].author === this.authors[author].id) {
-                        authorname = this.authors[author].name;
-                        break;
-                    }
-                }
                 list.push(
                     <div className="list-item" key={book} onClick={() => this.navigateTo(this.books[book].id)}>
                         <img src={booklogo} alt=""/>
@@ -82,7 +71,7 @@ class BookList extends Component {
                             </div>
                             <div>   
                                 by 
-                                <span className="book-author">{authorname}</span>
+                                <span className="book-author">{this.books[book].author}</span>
                             </div>
                             <div>    
                                 {(this.books[book].about).substring(0,100)}...
@@ -92,13 +81,18 @@ class BookList extends Component {
                     </div>
                 );
             }
+            if(this.books.length === 0) {
+                list = <div className="list-item">No Books</div>;
+            }
         }
         return (
             <div className="component-container">
                 <TopBar active="books"/>
                 <div className="container">
                     <div className="content-heading">
-                        BOOKS
+                        <span className="heading-text">BOOKS</span>
+                        <span className="heading-book-count">{this.state.loaded?this.books.length+' Books':''}</span>
+                        <span  className="heading-spacer"/>
                     </div>
                     <div className="main-content">
                         <div className="list-container">
@@ -109,7 +103,7 @@ class BookList extends Component {
                         </div>
                     </div>    
                 </div>
-                <AddBook show={this.state.addbook}/>
+                {this.state.addbook?<AddBook close={this.closeModal}/>:""}
             </div>
         );
     }

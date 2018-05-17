@@ -15,9 +15,7 @@ class AddBook extends Component {
         const that = this;
         axios.get('/authorlist')
             .then(function (response) {
-                console.log(typeof response.data);
                 that.authors = response.data;
-                console.log(that.authors);
                 that.setState({loaded: true});
             })
             .catch(function (error) {
@@ -25,7 +23,7 @@ class AddBook extends Component {
             })
     }
 
-    preventClick(event) {
+    static preventClick(event) {
         event.stopPropagation();
     }
 
@@ -33,15 +31,22 @@ class AddBook extends Component {
         event.preventDefault();
         event.stopPropagation();
         let that = this;
+        if(!this.refs.bookAuthor.value){
+            alert("Select an author or add one");
+            return;
+        }
+        if(!this.refs.bookName.value) {
+            alert("Enter a name for book");
+            return;
+        }
         axios.post("/addbook", {
             name: this.refs.bookName.value,
             author: this.refs.bookAuthor.value,
             isbn: this.refs.bookISBN.value,
             about: this.refs.bookAbout.value
         })
-            .then(function (response) {
-                that.setState({show:false});
-                console.log(response);
+            .then(function () {
+                that.props.close(true);
 
             })
             .catch(function (error) {
@@ -50,7 +55,7 @@ class AddBook extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        this.setState({show:nextProps.show});
+        //this.setState({show:nextProps.show});
     }
     componentDidMount() {
         this.fetch_details();
@@ -66,11 +71,10 @@ class AddBook extends Component {
                 );
             }
         }
-        let show = this.state.show?"modal modal-show":"modal";
         return (
-            <div className={show} onClick={()=>this.setState({show:false})}>
-                <div className="modal-content" onClick={this.preventClick}>
-                    <span onClick={()=>this.setState({show:false})} className="close">&times;</span>
+            <div className="modal modal-show" onClick={()=>this.props.close()}>
+                <div className="modal-content" onClick={AddBook.preventClick}>
+                    <span onClick={()=>this.props.close()} className="close">&times;</span>
                     <div className="modal-heading">ADD BOOK</div>
                     <form onSubmit={this.handleSubmit}>
                         <input className="modal-input" ref="bookName" placeholder="Book Name"/>
@@ -80,7 +84,7 @@ class AddBook extends Component {
                         <input className="modal-input" ref="bookISBN" type="number" placeholder="ISBN Number"/>
                         <input className="modal-input" ref="bookAbout" placeholder="Description of content"/>
                         <div className="modal-input modal-btns">
-                            <button type="reset" onClick={()=>this.setState({show:false})}>Cancel</button>
+                            <button type="reset" onClick={()=>this.props.close()}>Cancel</button>
                             <button type="submit">Add Book</button>
                         </div>
                     </form>

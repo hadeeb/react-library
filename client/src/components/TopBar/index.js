@@ -23,8 +23,12 @@ class TopBar extends Component {
         return (
             <div className="top-bar">
                 <span className="brand-name">Library</span>
-                <div className={bookclass}><Link to="/books">Books</Link></div>
-                <div className={authclass}><Link to="/authors">Authors</Link></div>
+                <div className={bookclass}>
+                    {this.active !== 1 ?<Link to="/books">Books</Link>:'Books'}
+                </div>
+                <div className={authclass}>
+                    {this.active !== 2 ?<Link to="/authors">Authors</Link>:'Authors'}
+                </div>
             </div>
         );
     }

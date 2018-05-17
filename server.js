@@ -1,13 +1,10 @@
 const express = require("express");
 const app = express();
-const mysql = require("mysql");
-const bodyParser = require('body-parser');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 
-app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-    extended: false
-}));
 app.use(express.json());
+// app.use(express.urlencoded());
 
 app.set("port", process.env.PORT || 3001);
 
@@ -18,11 +15,15 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Load database conncetion
-const db = require("./db");
+let db = new sqlite3.Database('./library.db', (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
 
 //Get the list of all books
 app.get("/booklist", (req,res) => {
-    db.query("SELECT * FROM book", function (err, result, fields) {
+    db.all("SELECT book.id, book.name, author.name as author, book.isbn, book.about FROM book LEFT JOIN author on book.author = author.id",[], function (err, result) {
         if (err) throw err;
         res.send(result);
     });
@@ -30,7 +31,7 @@ app.get("/booklist", (req,res) => {
 
 //Get the list of all authors
 app.get("/authorlist", (req, res) => {
-    db.query("SELECT * FROM author", function (err, result, fields) {
+    db.all("SELECT * FROM author",[], function (err, result) {
         if (err) throw err;
         res.send(result);
     });
@@ -43,8 +44,8 @@ app.post("/addbook", (req, res) => {
         isbn = req.body.isbn,
         about = req.body.about;
 
-    db.query(`INSERT INTO book (name,author,isbn,about) VALUES ('${name}','${author}','${isbn}','${about}')`,
-        function (err, result) {
+    db.all(`INSERT INTO book (name,author,isbn,about) VALUES ('${name}','${author}','${isbn}','${about}')`,[],
+        function (err) {
             if (err) throw err;
             res.send("OK");
         }
@@ -52,6 +53,7 @@ app.post("/addbook", (req, res) => {
 
 });
 
+// select book.id , book.name , author.name from book left join author on book.author = author.id;
 //Add an author to database
 app.post("/addauthor", (req, res) => {
     const name = req.body.name,
@@ -59,8 +61,8 @@ app.post("/addauthor", (req, res) => {
         gender = req.body.gender,
         born = req.body.born,
         about = req.body.about;
-    db.query(`INSERT INTO author (name,age,gender,born,about) VALUES ('${name}','${age}','${gender}','${born}','${about}')`,
-        function (err, result) {
+    db.run(`INSERT INTO author (name,age,gender,born,about) VALUES ('${name}','${age}','${gender}','${born}','${about}')`,[],
+        function (err) {
             if (err) throw err;
             res.send("OK");
         }
@@ -69,7 +71,7 @@ app.post("/addauthor", (req, res) => {
 
 // Get details of a book
 app.get("/viewbook/:id", (req,res) => {
-    db.query("SELECT * FROM book WHERE id = " + mysql.escape(req.params.id), function (err, result, fields) {
+    db.get("SELECT book.id, book.name, author.name as author, book.isbn, book.about FROM book LEFT JOIN author on book.author = author.id WHERE book.id = " +(req.params.id), function (err, result) {
         if (err) throw err;
         res.send(result);
     });
@@ -77,7 +79,7 @@ app.get("/viewbook/:id", (req,res) => {
 
 //Get Books by an author
 app.get("/viewauthor/:id", (req,res) => {
-    db.query("SELECT * FROM book WHERE author = " + mysql.escape(req.params.id), function (err, result, fields) {
+    db.all("SELECT * FROM book WHERE author = " +(req.params.id), function (err, result) {
         if (err) throw err;
         res.send(result);
     });
@@ -85,13 +87,20 @@ app.get("/viewauthor/:id", (req,res) => {
 
 //Get Profile of an author
 app.get("/authorprofile/:id", (req, res) => {
-    db.query("SELECT * FROM author WHERE id = " + mysql.escape(req.params.id), function (err, result, fields) {
+    db.all("SELECT * FROM author WHERE id = " + (req.params.id), function (err, result) {
         if (err) throw err;
         res.send(result);
     });
 });
-app.get("/",(req,res) => {
-   res.send("Client loading");
+// For react-router
+app.get("/*",(req,res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
+// Clear DB
+app.get("/resetdb",(req,res)=>{
+    const resetdb = require('./setupdb');
+    resetdb(db);
+    res.send("DB cleared");
 });
 app.listen(app.get("port"), () => {
     console.log(`Find the server at: http://localhost:${app.get("port")}/`);

@@ -1,17 +1,19 @@
 # Library App
+A simple ReactJS app to add and list books and authors to 
+
+## Stack
+  * SQLite
+  * NodeJS
+  * Express
+  * ReactJS
+<hr>
 
 ## Prequisites
-  * MySQL
-  * NodeJS
+  [NodeJS](https://nodejs.org/en/download/)
 ## Setup instructions
-
-Run MySQL server and create the database and tables <br>
-Refer [dbsetup](/dbsetup.sql) <br>
-Set the database username and password in db.js <br>
-
-
 * Install packages `npm run setup`
 * Development server `npm start`
+    navigate to **/resetdb** to initialize and/or reset database
 * Server only `npm run server`
 * Client only `npm client`
 * Build `npm run build`

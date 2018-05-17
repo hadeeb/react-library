@@ -5,6 +5,7 @@ import TopBar from "../TopBar/index";
 
 import './style.css';
 import bookicon from "../../assets/book_icon.svg";
+import { Redirect } from "react-router-dom";
 
 class BookDetail extends Component {
     constructor(props) {
@@ -16,17 +17,8 @@ class BookDetail extends Component {
         const that = this;
         axios.get('/viewbook/' + this.props.match.params.id)
             .then(function (response) {
-                console.log(typeof response.data);
-                that.book = response.data[0];
-                console.log(that.book);
-                axios.get('/authorprofile/' + that.book.author)
-                    .then(function (response) {
-                        that.authname = response.data[0].name;
-                        that.setState({loaded: true});
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                that.book = response.data;
+                that.setState({loaded:true});
             })
             .catch(function (error) {
                 console.log(error);
@@ -39,6 +31,8 @@ class BookDetail extends Component {
     render() {
         let content = <span>Loading</span>;
         if (this.state.loaded) {
+            if(!this.book)
+                return <Redirect to="/books"/>;
             content =
                 <div className="detail-container">
                     <img src={bookicon} alt=""/>
@@ -48,7 +42,7 @@ class BookDetail extends Component {
                             <span className="book-isbn">{this.book.isbn}</span>
                         </div>
                         
-                        <div>by <span className="auth-name">{this.authname}</span></div>
+                        <div>by <span className="auth-name">{this.book.author}</span></div>
                         <div>{this.book.about}</div>
                     </div>
                 </div>

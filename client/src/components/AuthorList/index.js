@@ -17,6 +17,7 @@ class AuthorList extends Component {
             redirect: false,
             addauthor:false
         };
+        this.closeModal = this.closeModal.bind(this);
     }
 
     navigateTo(author) {
@@ -28,9 +29,7 @@ class AuthorList extends Component {
         const that = this;
         axios.get('/authorlist')
             .then(function (response) {
-                console.log(typeof response.data);
                 that.authors = response.data;
-                console.log(that.authors);
                 that.setState({loaded: true});
             })
             .catch(function (error) {
@@ -42,6 +41,13 @@ class AuthorList extends Component {
         this.fetch_details();
     }
 
+    closeModal(added) {
+        this.setState({addauthor:false});
+        if(added) {
+            this.fetch_details();
+        }
+    }
+
     render() {
         if (this.state.redirect) {
             return <Redirect push to={"/author/" + this.selectedAuthor}/>;
@@ -49,8 +55,9 @@ class AuthorList extends Component {
         const addbtn =
             <button onClick={()=>this.setState({addauthor:true})}>Add Author</button>
         ;
-        let list = [];
+        let list = <div className="list-item">Loading</div>;
         if (this.state.loaded) {
+            list = [];
             for (let author in this.authors) {
                 let gender = "";
                 switch (this.authors[author].gender) {
@@ -61,7 +68,7 @@ class AuthorList extends Component {
                         gender = "Female";
                         break;
                     case 3:
-                        gender = "Other";
+                        gender = "Non-binary";
                         break;
                     default:
                         gender = " "
@@ -72,7 +79,7 @@ class AuthorList extends Component {
                         <div className="list-content">
                             <div className="authorlist-row1">
                                 <span className="author-name">{this.authors[author].name}</span>
-                                <span> Born in{this.authors[author].born}</span>
+                                <span> Born in {this.authors[author].born}</span>
                             </div>
                             <div className="authorlist-row2">
                                 <span>Age {this.authors[author].age}</span> /
@@ -82,13 +89,17 @@ class AuthorList extends Component {
                     </div>
                 );
             }
+            if(this.authors.length === 0)
+                list = <div className="list-item">No Authors</div>;
         }
         return (
             <div className="component-container">
                 <TopBar active="authors"/>
                 <div className="container">
                     <div className="content-heading">
-                        AUTHORS
+                    <span className="heading-text">AUTHORS</span>
+                        <span className="heading-book-count">{this.state.loaded?this.authors.length+' Authors':''}</span>
+                        <span  className="heading-spacer"/>
                     </div>
                     <div className="main-content">
                         <div className="list-container">
@@ -99,7 +110,7 @@ class AuthorList extends Component {
                         </div>
                     </div>
                 </div>
-                <AddAuthor show={this.state.addauthor}/>
+                {this.state.addauthor?<AddAuthor close={this.closeModal}/>:""}
             </div>
         );
     }

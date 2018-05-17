@@ -18,7 +18,6 @@ class AuthorDetail extends Component {
             loaded: false,
             redirect: false
         };
-        this.fetch_details();
     }
 
     navigateTo(book) {
@@ -40,15 +39,21 @@ class AuthorDetail extends Component {
             axios.request(listreq),
             axios.request(authreq)
         ])
-            .then(axios.spread(function (res1, res2) {
-                that.books = res1.data;
-                that.author = res2.data[0];
-                console.log(res2.data[0]);
-                that.setState({loaded: true});
-            }));
+        .then(axios.spread(function (res1, res2) {
+            that.books = res1.data;
+            that.author = res2.data[0];
+            if(res2.data.length === 0)
+                that.author = false;
+            that.setState({loaded: true});
+        }));
+    }
+    componentDidMount() {
+        this.fetch_details();
     }
 
     render() {
+        if(this.state.loaded &&  !this.author)
+            return <Redirect to="/authors"/>;
         if (this.state.redirect) {
             return <Redirect push to={"/book/" + this.selectedBook}/>;
         }
@@ -85,7 +90,7 @@ class AuthorDetail extends Component {
                         gender = "Female";
                         break;
                     case 3:
-                        gender = "Other";
+                        gender = "Non-binary";
                         break;
                     default:
                         gender = " "

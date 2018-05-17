@@ -23,8 +23,9 @@
 .top-bar .active {
 	border-bottom: 1px solid var(--cornflower);
 	color: var(--cornflower);
+	cursor: pointer;
 }
-.active a {
+.active {
 	color: var(--cornflower);
 }
 .top-bar div {
