@@ -33,9 +33,6 @@ class AddAuthor extends Component {
         console.log(error);
       });
   }
-  componentWillReceiveProps(nextProps) {
-    // this.setState({show:nextProps.show});
-  }
 
   render() {
     return (

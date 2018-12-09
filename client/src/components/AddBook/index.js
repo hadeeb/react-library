@@ -55,9 +55,6 @@ class AddBook extends Component {
       });
   }
 
-  componentWillReceiveProps(nextProps) {
-    //this.setState({show:nextProps.show});
-  }
   componentDidMount() {
     this.fetch_details();
   }
