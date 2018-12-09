@@ -1,12 +1,24 @@
 const router = require("express").Router();
 const sqlite3 = require("sqlite3").verbose();
+const resetdb = require("./setupdb");
+const fs = require("fs");
 
 // Load database conncetion
-const db = new sqlite3.Database("./library.db", err => {
-  if (err) {
-    console.error(err.message);
-  }
-});
+let db;
+if (fs.existsSync("./library.db")) {
+  db = new sqlite3.Database("./library.db", err => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+} else {
+  db = new sqlite3.Database("./library.db", err => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+  resetdb(db);
+}
 
 //Get the list of all books
 router.get("/booklist", (req, res) => {
@@ -99,7 +111,6 @@ router.get("/authorprofile/:id", (req, res) => {
 
 // Clear DB
 router.get("/resetdb", (req, res) => {
-  const resetdb = require("./setupdb");
   resetdb(db);
   res.send("DB cleared");
 });
